@@ -77,6 +77,7 @@ describe 'CIS test case verification', {stemcell_image: true, security_spec: tru
     exclude_on_warden: true,
     exclude_on_openstack: true,
     exclude_on_softlayer: true,
+    exclude_on_alicloud: true,
   } do
     it 'confirms that all CIS test cases ran' do
       expected_base_cis_test_cases = base_cis_test_cases
