@@ -38,6 +38,7 @@ describe 'Ubuntu 14.04 stemcell image', stemcell_image: true do
     exclude_on_vsphere: true,
     exclude_on_openstack: true,
     exclude_on_softlayer: true,
+    exclude_on_alicloud: true,
   } do
     context 'so we can run upstart in as PID 1 in the container' do
       describe file('/var/vcap/bosh/bin/unshare') do
@@ -108,6 +109,7 @@ describe 'Ubuntu 14.04 stemcell image', stemcell_image: true do
   end
 
   context 'installed by system-azure-network', {
+    exclude_on_alicloud: true,
     exclude_on_aws: true,
     exclude_on_google: true,
     exclude_on_vcloud: true,
@@ -124,6 +126,7 @@ describe 'Ubuntu 14.04 stemcell image', stemcell_image: true do
   end
 
   context 'installed by system_open_vm_tools', {
+    exclude_on_alicloud: true,
     exclude_on_aws: true,
     exclude_on_google: true,
     exclude_on_vcloud: true,
@@ -138,6 +141,7 @@ describe 'Ubuntu 14.04 stemcell image', stemcell_image: true do
   end
 
   context 'installed by system_softlayer_open_iscsi', {
+      exclude_on_alicloud: true,
       exclude_on_aws: true,
       exclude_on_google: true,
       exclude_on_vsphere: true,
@@ -152,6 +156,7 @@ describe 'Ubuntu 14.04 stemcell image', stemcell_image: true do
   end
 
   context 'installed by system_softlayer_multipath_tools', {
+      exclude_on_alicloud: true,
       exclude_on_aws: true,
       exclude_on_google: true,
       exclude_on_vsphere: true,
@@ -166,6 +171,7 @@ describe 'Ubuntu 14.04 stemcell image', stemcell_image: true do
   end
 
   context 'installed by image_vsphere_cdrom stage', {
+    exclude_on_alicloud: true,
     exclude_on_aws: true,
     exclude_on_google: true,
     exclude_on_vcloud: true,
@@ -210,6 +216,7 @@ HERE
     exclude_on_warden: true,
     exclude_on_azure: true,
     exclude_on_softlayer: true,
+    exclude_on_alicloud: true,
   } do
     describe file('/var/vcap/bosh/agent.json') do
       it { should be_valid_json_file }
@@ -225,6 +232,7 @@ HERE
     exclude_on_warden: true,
     exclude_on_azure: true,
     exclude_on_softlayer: true,
+    exclude_on_alicloud: true,
   } do
     describe file('/var/vcap/bosh/agent.json') do
       it { should be_valid_json_file }
@@ -240,6 +248,7 @@ HERE
     exclude_on_warden: true,
     exclude_on_azure: true,
     exclude_on_softlayer: true,
+    exclude_on_alicloud: true,
   } do
     describe file('/var/vcap/bosh/agent.json') do
       it { should be_valid_json_file }
@@ -257,6 +266,7 @@ HERE
     exclude_on_warden: true,
     exclude_on_azure: true,
     exclude_on_softlayer: true,
+    exclude_on_alicloud: true,
   } do
     describe file('/var/vcap/bosh/agent.json') do
       it { should be_valid_json_file }
@@ -272,6 +282,7 @@ HERE
       exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_alicloud: true,
   } do
     describe file('/var/vcap/bosh/agent.json') do
       it { should be_valid_json_file }
@@ -281,6 +292,24 @@ HERE
     end
   end
 
+  context 'installed by bosh_alicloud_agent_settings', {
+    exclude_on_aws: true,
+    exclude_on_google: true,
+    exclude_on_openstack: true,
+    exclude_on_vcloud: true,
+    exclude_on_vsphere: true,
+    exclude_on_warden: true,
+    exclude_on_azure: true,
+    exclude_on_softlayer: true,
+  } do
+    describe file('/var/vcap/bosh/agent.json') do
+      it { should be_valid_json_file }
+      its(:content) { should match('"Type": "HTTP"') }
+      its(:content) { should match('"UseRegistry": true') }
+      its(:content) { should match('"UseServerName": false') }
+    end
+  end
+  
   describe 'mounted file systems: /etc/fstab should mount nfs with nodev (stig: V-38654) (stig: V-38652)' do
     describe file('/etc/fstab') do
       it { should be_file }
@@ -297,6 +326,7 @@ HERE
     let(:dpkg_list_warden_ubuntu) { File.read(spec_asset('dpkg-list-warden-ubuntu.txt')) }
     let(:dpkg_list_google_ubuntu) { File.read(spec_asset('dpkg-list-google-ubuntu.txt')) }
     let(:dpkg_list_openstack_ubuntu) { File.read(spec_asset('dpkg-list-openstack-ubuntu.txt')) }
+    let(:dpkg_list_alicloud_ubuntu) { File.read(spec_asset('dpkg-list-alicloud-ubuntu.txt')) }
 
     describe command(dpkg_list_packages), {
       exclude_on_aws: true,
@@ -305,6 +335,7 @@ HERE
       exclude_on_vsphere: true,
       exclude_on_warden: true,
       exclude_on_azure: true,
+      exclude_on_alicloud: true,
     } do
       its(:stdout) { should eq(dpkg_list_openstack_ubuntu) }
     end
@@ -316,6 +347,7 @@ HERE
       exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_alicloud: true,
     } do
       its(:stdout) { should eq(dpkg_list_google_ubuntu) }
     end
@@ -327,6 +359,7 @@ HERE
       exclude_on_vsphere: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_alicloud: true,
     } do
       its(:stdout) { should eq(dpkg_list_warden_ubuntu) }
     end
@@ -338,6 +371,7 @@ HERE
       exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_alicloud: true,
     } do
       its(:stdout) { should eq(dpkg_list_vcloud_ubuntu) }
     end
@@ -349,6 +383,7 @@ HERE
       exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_alicloud: true,
     } do
       its(:stdout) { should eq(dpkg_list_vsphere_ubuntu) }
     end
@@ -360,8 +395,21 @@ HERE
       exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_alicloud: true,
     } do
       its(:stdout) { should eq(dpkg_list_aws_ubuntu) }
+    end
+    
+    describe command(dpkg_list_packages), {
+      exclude_on_google: true,
+      exclude_on_vcloud: true,
+      exclude_on_vsphere: true,
+      exclude_on_warden: true,
+      exclude_on_azure: true,
+      exclude_on_openstack: true,
+      exclude_on_aws: true,
+    } do
+      its(:stdout) { should eq(dpkg_list_alicloud_ubuntu) }
     end
   end
 end
