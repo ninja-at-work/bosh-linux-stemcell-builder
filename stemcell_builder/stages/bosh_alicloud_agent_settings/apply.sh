@@ -18,11 +18,11 @@ cat > $chroot/var/vcap/bosh/agent.json <<JSON
           "Type": "HTTP",
           "URI": "http://100.100.100.200",
           "InstanceIDPath": "/latest/meta-data/instance-id",
-          "UserDataPath": "/latest/user-data"
+          "SettingsPath": "/latest/user-data"
         }
       ],
       "UseServerName": false,
-      "UseRegistry": true
+      "UseRegistry": false
     }
   }
 }
