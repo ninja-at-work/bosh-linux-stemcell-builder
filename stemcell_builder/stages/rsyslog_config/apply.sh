@@ -57,8 +57,12 @@ done
 # init.d configuration is different for each OS
 if [ -f $chroot/etc/debian_version ] # Ubuntu
 then
+  if [ ${DISTRIB_CODENAME} != 'xenial' ]; then
+    run_in_bosh_chroot $chroot "
+      ln -sf /lib/init/upstart-job /etc/init.d/rsyslog
+    "
+  fi
   run_in_bosh_chroot $chroot "
-    ln -sf /lib/init/upstart-job /etc/init.d/rsyslog
     update-rc.d rsyslog defaults
   "
 
@@ -70,6 +74,14 @@ then
   mkdir -p $chroot/etc/systemd/system/rsyslog.service.d
   cp -f $assets_dir/rsyslog_override.conf $chroot/etc/systemd/system/rsyslog.service.d/rsyslog_override.conf
   cp -f $assets_dir/systemd_mountchecker.service  $chroot/etc/systemd/system/mountchecker.service
+  run_in_bosh_chroot $chroot "systemctl enable rsyslog.service"
+elif [ -f $chroot/etc/SuSE-release ] # openSUSE
+then
+  sed -i "s@/dev/xconsole@/dev/console@g" $chroot/etc/rsyslog.d/50-default.conf
+  mkdir -p $chroot/etc/systemd/system/rsyslog.service.d
+  cp -f $assets_dir/rsyslog_override.conf $chroot/etc/systemd/system/rsyslog.service.d/rsyslog_override.conf
+  cp -f $assets_dir/systemd_mountchecker.service  $chroot/etc/systemd/system/mountchecker.service
+  sed -i 's@/usr/bin/bash@/bin/bash@' $chroot/etc/systemd/system/mountchecker.service
   run_in_bosh_chroot $chroot "systemctl enable rsyslog.service"
 elif [ -f $chroot/etc/photon-release ] # PhotonOS
 then

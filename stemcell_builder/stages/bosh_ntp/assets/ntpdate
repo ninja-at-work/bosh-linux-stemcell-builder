@@ -1,0 +1,11 @@
+#!/bin/sh
+
+exec > $BOSH/log/sync-time.out
+exec 2>&1
+
+BOSH=/var/vcap/bosh
+NTP_SERVER_FILE=$BOSH/etc/ntpserver
+if [ -f $NTP_SERVER_FILE ]; then
+	NTP_SERVER=`cat $NTP_SERVER_FILE`
+	/usr/sbin/ntpdate $NTP_SERVER
+fi

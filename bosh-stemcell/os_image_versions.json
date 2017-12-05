@@ -1,5 +1,5 @@
 {
-  "bosh-centos-6-os-image.tgz": "kkUYP.4sM_hdsn3Sfcr6ksahFpPgb2D8",
-  "bosh-centos-7-os-image.tgz": "7Fx.ggVjNsKByV_t3arRW2pBpzJ_nE9W",
-  "bosh-ubuntu-trusty-os-image.tgz": "vtxhmn43pPhrsF0Z1J6ANe0qLknE7cTA"
+  "bosh-centos-7-os-image.tgz": "vb_TNB_nbU4Q689j_LSLX2SIxLRKnjPe",
+  "bosh-ubuntu-trusty-os-image.tgz": "tuNJU7fC4UCAP92IdpCKKV5uMAd4RTdW",
+  "bosh-ubuntu-xenial-os-image.tgz": "UWLqyMZYpnrmBbporWp2WVFA5vtFCOCH"
 }

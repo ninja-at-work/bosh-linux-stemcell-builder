@@ -4,6 +4,7 @@ require 'shellout_types/file'
 
 describe 'Ubuntu 14.04 OS image', os_image: true do
   it_behaves_like 'every OS image'
+  it_behaves_like 'an os with ntpdate'
   it_behaves_like 'an upstart-based OS image'
   it_behaves_like 'a Linux kernel 3.x based OS image'
   it_behaves_like 'a Linux kernel module configured OS image'
@@ -34,6 +35,7 @@ describe 'Ubuntu 14.04 OS image', os_image: true do
       debconf
       eject
       gnupg
+      gdisk
       ifupdown
       initramfs-tools
       iproute2
@@ -378,6 +380,12 @@ EOF
           its(:group) { should eq('root') }
         end
       end
+    end
+  end
+
+  context 'auditd is configured to use augenrules' do
+    describe file('/etc/default/auditd') do
+      its(:content) { should match(/USE_AUGENRULES="yes"/) }
     end
   end
 

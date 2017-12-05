@@ -12,5 +12,9 @@ inputs:
 - name: os-conf-release
 - name: director-state
 
+params:
+  BOSH_os_name: required
+  package: .
+
 run:
   path: bosh-linux-stemcell-builder/ci/tasks/test-stemcell.sh
