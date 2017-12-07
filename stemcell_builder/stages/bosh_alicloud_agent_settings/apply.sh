@@ -15,9 +15,8 @@ cat > $chroot/var/vcap/bosh/agent.json <<JSON
     "Settings": {
       "Sources": [
         {
-          "Type": "HTTP",
+          "Type": "InstanceMetadata",
           "URI": "http://100.100.100.200",
-          "InstanceIDPath": "/latest/meta-data/instance-id",
           "SettingsPath": "/latest/user-data"
         }
       ],
